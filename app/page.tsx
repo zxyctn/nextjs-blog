@@ -29,8 +29,11 @@ const Home = async () => {
 
         return (
           <Link key={slug} href={`/entry/${slug}`}>
-            <div className='flex items-center justify-between border-b-2 py-2 border-primary border-dashed'>
-              <h1 className='text-2xl font-bold'>{title}</h1>
+            <div className='w-full flex gap-8 items-center justify-between border-b-2 py-2 border-primary border-dashed text-nowrap '>
+              <div className='w-48 overflow-auto grow'>
+                <h1 className='text-2xl font-bold'>{title}</h1>
+              </div>
+
               <p className='text-lg'>{date}</p>
             </div>
           </Link>
