@@ -1,4 +1,5 @@
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { Analytics } from '@vercel/analytics/react';
 
 import type { Metadata } from 'next';
 import { Roboto_Mono } from 'next/font/google';
@@ -28,6 +29,8 @@ export default function RootLayout({
         <Nav />
         <div className='py-4 md:py-8 lg:py-12 w-full'>{children}</div>
       </body>
+      <SpeedInsights />
+      <Analytics />
     </html>
   );
 }
