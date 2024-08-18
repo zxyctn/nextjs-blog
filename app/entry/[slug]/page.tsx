@@ -7,6 +7,12 @@ import type { Entry } from '@/lib/types';
 
 export const revalidate = 30; // revalidate every 30 seconds
 
+type Params = {
+  params: {
+    slug: string;
+  };
+};
+
 const getEntry = async (slug: string) => {
   console.log(slug);
 
@@ -24,15 +30,17 @@ const getEntry = async (slug: string) => {
   return data;
 };
 
-export const metadata: Metadata = {
-  title: '_blog | Entry',
-};
+export async function generateMetadata({ params }: Params) {
+  const data = await getEntry(params.slug);
 
-const Entry = async ({ params }: { params: { slug: string } }) => {
+  return {
+    title: `_blog | ${data.title}`,
+  };
+}
+
+const Entry = async ({ params }: Params) => {
   const data: any = await getEntry(params.slug);
   const date = new Date(data.createdAt).toISOString().split('T')[0];
-
-  metadata.title = `_blog | ${data.title}`;
 
   const PortableTextComponent = {
     types: {

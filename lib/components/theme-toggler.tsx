@@ -4,24 +4,21 @@ import { useEffect, useState } from 'react';
 import { Moon, Sun } from '@phosphor-icons/react';
 
 const ThemeToggler = () => {
-  const [theme, setTheme] = useState<string>('light');
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
-  };
-
-  useEffect(() => {
+  const [theme, setTheme] = useState<string>(() => {
     let localValue = window.localStorage.getItem('theme');
     if (!localValue) {
       const osPreference = window.matchMedia('(prefers-color-scheme: dark)')
         .matches
         ? 'dark'
         : 'light';
-      setTheme(osPreference);
-    } else {
-      setTheme(localValue);
+      return osPreference;
     }
-  }, []);
+    return localValue;
+  });
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   useEffect(() => {
     window.localStorage.setItem('theme', theme);
@@ -39,9 +36,10 @@ const ThemeToggler = () => {
         className='theme-controller'
         value={theme}
         onChange={toggleTheme}
+        checked={theme === 'light'}
       />
-      <Moon size={32} className='swap-on fill-primary' />
-      <Sun size={32} className='swap-off fill-primary' />
+      <Moon size={32} className={`fill-primary swap-off`} />
+      <Sun size={32} className={`fill-primary swap-on`} />
     </label>
   );
 };
