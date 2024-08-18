@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { client } from '@/lib/sanity';
 import type { Entry } from '@/lib/types';
 
+export const revalidate = 30; // revalidate every 30 seconds
+
 const getEntries = async () => {
   const query = `
   *[_type == 'entry'] | order(_createdAt desc) {

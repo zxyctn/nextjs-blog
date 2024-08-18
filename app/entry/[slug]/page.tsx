@@ -4,6 +4,8 @@ import { PortableText } from 'next-sanity';
 import { client, urlFor } from '@/lib/sanity';
 import type { Entry } from '@/lib/types';
 
+export const revalidate = 30; // revalidate every 30 seconds
+
 const getEntry = async (slug: string) => {
   console.log(slug);
 
