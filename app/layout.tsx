@@ -21,10 +21,10 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body
-        className={`${robotoMono.className} max-w-[1200px] mx-auto p-8 lg:p-12`}
+        className={`${robotoMono.className} max-w-[1200px] mx-auto p-4 md:p-8 lg:p-12`}
       >
         <Nav />
-        {children}
+        <div className='py-4 md:py-8 lg:py-12 w-full'>{children}</div>
       </body>
     </html>
   );
