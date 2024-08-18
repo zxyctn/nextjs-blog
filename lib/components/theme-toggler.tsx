@@ -4,43 +4,44 @@ import { useEffect, useState } from 'react';
 import { Moon, Sun } from '@phosphor-icons/react';
 
 const ThemeToggler = () => {
-  const [dark, setDark] = useState(() => {
-    let theme = window.localStorage.getItem('theme');
-    if (!theme) {
-      theme = window.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light';
-      window.localStorage.setItem('theme', theme);
-    }
-    return theme === 'dark';
-  });
+  const [theme, setTheme] = useState<string>('light');
 
   const toggleTheme = () => {
-    setDark(!dark);
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   useEffect(() => {
-    const theme = dark ? 'dark' : 'light';
+    let localValue = window.localStorage.getItem('theme');
+    if (!localValue) {
+      const osPreference = window.matchMedia('(prefers-color-scheme: dark)')
+        .matches
+        ? 'dark'
+        : 'light';
+      setTheme(osPreference);
+    } else {
+      setTheme(localValue);
+    }
+  }, []);
+
+  useEffect(() => {
     window.localStorage.setItem('theme', theme);
 
     const html = document.getElementsByTagName('html')[0] as HTMLElement;
-
     html.classList.add(theme);
-    html.classList.remove(!dark ? 'dark' : 'light');
-
+    html.classList.remove(theme === 'dark' ? 'light' : 'dark');
     html.setAttribute('data-theme', theme);
-  }, [dark]);
+  }, [theme]);
 
   return (
     <label className='swap swap-rotate'>
       <input
         type='checkbox'
         className='theme-controller'
-        value={dark ? 'dark' : 'light'}
+        value={theme}
         onChange={toggleTheme}
       />
-      <Sun size={32} className='swap-on fill-primary' />
-      <Moon size={32} className='swap-off fill-primary' />
+      <Moon size={32} className='swap-on fill-primary' />
+      <Sun size={32} className='swap-off fill-primary' />
     </label>
   );
 };
