@@ -5,6 +5,8 @@ import { Moon, Sun } from '@phosphor-icons/react';
 
 const ThemeToggler = () => {
   const [theme, setTheme] = useState<string>(() => {
+    if (!window) return 'light';
+    
     let localValue = window.localStorage.getItem('theme');
     if (!localValue) {
       const osPreference = window.matchMedia('(prefers-color-scheme: dark)')
@@ -21,6 +23,7 @@ const ThemeToggler = () => {
   };
 
   useEffect(() => {
+    if (!window) return;
     window.localStorage.setItem('theme', theme);
 
     const html = document.getElementsByTagName('html')[0] as HTMLElement;
